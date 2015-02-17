@@ -38,11 +38,13 @@ $('#start-experience').on('click', function () {
 });
 
 
+// Lorsque click sur "QUIT"
 $('#quit-experience').on('click', function () {
     exitFullScreen();
 });
 
 
+// On ecoute les changements de fullscreen
 document.addEventListener('webkitfullscreenchange', function (event) {
     $('#game-interface').toggleClass('active');
 
@@ -55,7 +57,6 @@ document.addEventListener('webkitfullscreenchange', function (event) {
         socketIO.emit('disconnect');
     }
 });
-
 
 
 // Click sur jouer en ligne
@@ -90,17 +91,7 @@ $('#start-game').on('click', function () {
 });
 
 
-// Lors du clique sur le bouton "Finir"
-$('#end-game').on('click', function () {
-    gameControlsHandler.reset();
-    gameControlsHandler.stop();
-
-    $(this).fadeOut(function() {
-        $('#start-game').fadeIn();
-    });
-});
-
-
+// Lors du click sur les regles
 $('#display-rules').on('click', function () {
     $(this).addClass('active');
     $('.rules').toggleClass('active');
@@ -159,12 +150,12 @@ socketIO.on('characterResponse', function (response) {
 socketIO.on('logOut', function () {
     setPane($('.pane[data-active="true"]'), false);
     setPane($('#home'), true);
-    
+
     socketIO.emit('disconnect');
 });
 
 
-// Lorsque l'on nous dit de retenter de ce connecter
+// Lorsque l'on nous dit de retenter de se connecter
 socketIO.on('retryPlaying', function() {
     $('#play-online').trigger('click');
 });
