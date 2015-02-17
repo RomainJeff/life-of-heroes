@@ -12,39 +12,45 @@ module.exports = function () {
     /**
      * Ajoute un utilisateur
      * @param int id
-     * @param bool inGame
      */
-    userModel.prototype.add = function(id, inGame) {
-        var inGame = (!inGame) ? false : inGame;
-
-        if (inGame) {
-            this.users.push(id);
-        } else {
-            this.waiting.push(id);
-        }
-
-        return true;
+    userModel.prototype.addPlaying = function(id) {
+        this.users[id] = {};
     };
 
 
     /**
-     * Supprime un utilisateur
+     * Ajoute un utilisateur en attente
      * @param int id
      */
-    userModel.prototype.delete = function(id) {
-        if (this.exist(id, true)) {
-            delete this.users[this.users.indexOf(id)];
+    userModel.prototype.addWaiting = function(id) {
+        this.waiting.push(id);
+    };
 
-            return true;
-        }
 
-        if (this.exist(id, false)) {
-            delete this.waiting[this.waiting.indexOf(id)];
+    /**
+     * Modifie les parametres d'un utilisateur
+     * @param object params
+     */
+    userModel.prototype.set = function(params) {
+        this.users[id] = params;
+    };
 
-            return true;
-        }
 
-        return false;
+    /**
+     * Supprime un utilisateur en jeu
+     * @param int id
+     */
+    userModel.prototype.deletePlaying = function(id) {
+        delete this.users[id];
+    };
+
+
+    /**
+     * Supprime un utilisateur en attente
+     * @param int id
+     */
+    userModel.prototype.deleteWaiting = function(id) {
+        delete this.waiting[this.waiting.indexOf(id)];
     };
 
 
@@ -55,7 +61,7 @@ module.exports = function () {
      */
     userModel.prototype.exist = function (id, inGame) {
         if (inGame) {
-            if (!this.users[this.users.indexOf(id)]) return false;
+            if (!this.users[id]) return false;
         } else {
             if (!this.waiting[this.waiting.indexOf(id)]) return false;
         }
@@ -68,10 +74,10 @@ module.exports = function () {
      * Recupere les utilisateurs en jeu
      * @param int id
      */
-    userModel.prototype.getInGame = function (id) {
+    userModel.prototype.getPlaying = function (id) {
         if (!id) return this.users;
 
-        return this.users[this.users.indexOf(id)];
+        return this.users[id];
     };
 
 

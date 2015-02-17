@@ -1,4 +1,6 @@
 /** PARAMETRES **/
+var socketIO = io('localhost:8080');
+
 var sizeGrille = [15, 15];
 var grilleID = "grille";
 var grille = new grilleController();
@@ -18,7 +20,7 @@ var settingsControlsHandler = new settingsControls(grille);
 /***********************************************************************************/
 
 
-/** FAKE LOADING **/
+/** LOADING **/
 var loadingTmp = function () {};
 
 var playOnlineLoading = function() {
@@ -31,7 +33,6 @@ var playOnlineLoading = function() {
 
 
 /** EVENTS **/
-
 $('#start-experience').on('click', function () {
     fullScreen();
 });
@@ -47,17 +48,22 @@ document.addEventListener('webkitfullscreenchange', function (event) {
 });
 
 
+
+// Click sur jouer en ligne
 $('#play-online').on('click', function () {
     $('.loading').addClass('active');
     loadingTmp = setInterval(playOnlineLoading, 30);
 
-    setTimeout(function () {
-        $('.loading').removeClass('active');
-        clearInterval(loadingTmp);
+    // On envoie la requete de jeu au serveur
+    socketIO.emit('playOnline');
 
-        setPane($('#home'), false);
-        setPane($('#select-character'), true);
-    }, 3000);
+    // setTimeout(function () {
+    //     $('.loading').removeClass('active');
+    //     clearInterval(loadingTmp);
+
+    //     setPane($('#home'), false);
+    //     setPane($('#select-character'), true);
+    // }, 3000);
 });
 
 
@@ -107,6 +113,33 @@ $('#grille').on('click', '.row', function () {
 });
 
 
+
+
+/***********************************************************************************/
+/******************************** SOCKET I/O ***************************************/
+/***********************************************************************************/
+
+// Lorsque l'on nous dit l'etat du joueur courrant (peut jouer ou en attente)
+socketIO.on('userState', function (state) {
+    $('.loading').removeClass('active');
+    clearInterval(loadingTmp);
+
+    setPane($('#home'), false);
+
+    // Si il reste des places pour jouer
+    // on affiche le choix d'un personnage
+    if (state) {
+        setPane($('#select-character'), true);
+    } else {
+        setPane($('#waiting'), true);
+    }
+});
+
+
+
+/***********************************************************************************/
+/******************************** FUNCTIONS ****************************************/
+/***********************************************************************************/
 
 /** Definie l'etat d'une pane **/
 function setPane(element, state) {
