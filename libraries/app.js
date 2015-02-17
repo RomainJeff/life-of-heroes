@@ -45,6 +45,15 @@ $('#quit-experience').on('click', function () {
 
 document.addEventListener('webkitfullscreenchange', function (event) {
     $('#game-interface').toggleClass('active');
+
+    // Quand le joueur quitte le mode fullScreen
+    if (!$('#game-interface').hasClass('active')) {
+        $('.pane[data-active]').attr('data-active', false);
+        $('#home').attr('data-active', true);
+
+        // On envoie la deconnexion au serveur
+        socketIO.emit('logOut');
+    }
 });
 
 
@@ -56,14 +65,6 @@ $('#play-online').on('click', function () {
 
     // On envoie la requete de jeu au serveur
     socketIO.emit('playOnline');
-
-    // setTimeout(function () {
-    //     $('.loading').removeClass('active');
-    //     clearInterval(loadingTmp);
-
-    //     setPane($('#home'), false);
-    //     setPane($('#select-character'), true);
-    // }, 3000);
 });
 
 
@@ -128,7 +129,7 @@ socketIO.on('userState', function (state) {
 
     // Si il reste des places pour jouer
     // on affiche le choix d'un personnage
-    if (state) {
+    if (state === true) {
         setPane($('#select-character'), true);
     } else {
         setPane($('#waiting'), true);

@@ -59,7 +59,7 @@ module.exports = function () {
      * @param int id
      * @param bool inGame
      */
-    userModel.prototype.exist = function (id, inGame) {
+    userModel.prototype.exists = function (id, inGame) {
         if (inGame) {
             if (!this.users[id]) return false;
         } else {
@@ -78,6 +78,18 @@ module.exports = function () {
         if (!id) return this.users;
 
         return this.users[id];
+    };
+
+
+    /**
+     * Recupere le nombre d'utilisateurs en jeu
+     */
+    userModel.prototype.getCountPlaying = function () {
+        var count = 0;
+
+        for (user in this.users) { count++; }
+
+        return count;
     };
 
 
