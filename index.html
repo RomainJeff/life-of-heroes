@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <title>Heroes of Life</title>
+
+        <link rel="stylesheet" href="css/app.css">
+    </head>
+
+    <body>
+        <!-- HOMEPAGE -->
+        <section id="homepage">
+            <div class="smoke"></div>
+            <div id="logo"></div>
+            <button id="start-experience">start the game</button>
+        </section>
+        <!-- END HOMEPAGE -->
+
+
+        <!-- GAME -->
+        <section id="game-interface">
+            <!-- LOADING -->
+            <section class="loading">
+                <div class="flash" data-step="1"></div>
+            </section>
+            <!-- END LOADING -->
+            
+            <!-- HOME -->
+            <section id="home" class="pane" data-active="true">
+                <div id="batman-shadow"></div>
+
+                <nav>
+                    <ul>
+                        <li id="play-online">Play online</li>
+                        <li id="display-rules">Rules</li>
+                        <li id="quit-experience">Quit</li>
+                    </ul>
+                </nav>
+                
+                <!-- RULES -->
+                <section class="rules">
+                    <h2>What is heroes of life ?<span>Inspired by the conway's game of life</span></h2>
+                    <p>
+                        Lorem ipsum dolor sit amet, consectetur adipisicing elit. Itaque cumque neque non molestiae? Veritatis, quibusdam delectus harum. Natus suscipit, obcaecati ullam itaque ipsum enim earum excepturi. Distinctio, aliquid tempora officia!
+                    </p>
+                    <p>
+                        Lorem ipsum dolor sit amet, consectetur adipisicing elit. Itaque cumque neque non molestiae? Veritatis, quibusdam delectus harum. Natus suscipit, obcaecati ullam itaque ipsum enim earum excepturi. Distinctio, aliquid tempora officia!
+                        Lorem ipsum dolor sit amet, consectetur adipisicing elit. Itaque cumque neque non molestiae? Veritatis, quibusdam delectus harum. Natus suscipit, obcaecati ullam itaque ipsum enim earum excepturi. Distinctio, aliquid tempora officia!
+                    </p>
+                </section>
+            </section>
+            <!-- END HOME -->
+
+            <!-- SELECT CHARACTER -->
+            <section class="pane" data-active="false" id="select-character">
+                <div class="title">
+                    <span>Character selection</span>
+                    <h2>Choose your super hero</h2>
+                </div>
+
+                <ul>
+                    <li id="green-lanter" data-char="green">
+                        <div class="cont">
+                            <div class="icon">
+                                <h3>Green lantern</h3>
+                            </div>
+                        </div>
+                    </li>
+                    <li id="batman" data-char="batman">
+                        <div class="cont">
+                            <div class="icon">
+                                <h3>Batman</h3>
+                            </div>
+                        </div>
+                    </li>
+                    <li id="flash" data-char="flash">
+                        <div class="cont">
+                            <div class="icon">
+                                <h3>Flash</h3>
+                            </div>
+                        </div>
+                    </li>
+                    <li id="superman" data-char="superman">
+                        <div class="cont">
+                            <div class="icon">
+                                <h3>Superman</h3>
+                            </div>
+                        </div>
+                    </li>
+                </ul>
+            </section>
+            <!-- END SELECT CHARACTER -->
+
+            <!-- IN GAME -->
+            <section id="in-game" class="pane" data-active="false">
+                <div class="title">
+                    <span>Play the game</span>
+                    <h2>Select your cells</h2>
+                </div>
+
+                <aside class="aside">
+                    <h2>How to play</h2>
+                    <p>
+                        Lorem ipsum dolor sit amet, consectetur adipisicing elit. Dignissimos quisquam voluptate, hic, suscipit aliquam maiores dolores, quo eligendi, eveniet doloribus numquam iusto rem quod? Nam, quis eius vero pariatur amet!<br><br>
+                        Lorem ipsum dolor sit amet, consectetur adipisicing elit. Dignissimos quisquam voluptate, hic, suscipit aliquam maiores dolores, quo eligendi, eveniet doloribus numquam iusto rem quod? Nam, quis eius vero pariatur amet!
+                    </p>
+                    <p>
+                        <button id="start-game" class="game-button">Start the game</button>
+                        <button id="end-game" class="game-button">End the game</button>
+                    </p>
+                </aside>
+
+                <section id="grille"></section>
+            </section>
+            <!-- END IN GAME -->
+
+        </section>
+        <!-- END GAME -->
+
+
+        <script type="text/javascript" src="http://code.jquery.com/jquery-latest.min.js"></script>
+        <script type="text/javascript" src="libraries/grille.js"></script>
+        <script type="text/javascript" src="libraries/grilleTempo.js"></script>
+        <script type="text/javascript" src="libraries/neightboor.js"></script>
+        <script type="text/javascript" src="libraries/game.js"></script>
+
+        <script type="text/javascript" src="libraries/events/gameControls.js"></script>
+        <script type="text/javascript" src="libraries/events/settingsControls.js"></script>
+
+        <script type="text/javascript" src="libraries/fullscreen.js"></script>
+        <script type="text/javascript" src="libraries/app.js"></script>
+    </body>
+</html>
