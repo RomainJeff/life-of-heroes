@@ -28,14 +28,23 @@ module.exports = function () {
 
 
     /**
-     * Verifie qu'un personnage n'est pas pris
+     * Recupere les personnages pris
+     */
+    characterModel.prototype.get = function() {
+        return this.characters;
+    };
+
+
+    /**
+     * Verifie si un personnage est pris
      * @param int id
-     * @param bool inGame
      */
     characterModel.prototype.isTaken = function (name) {
-        if (this.characters.indexOf(name) < 0) return false;
+        for (character in this.characters) {
+            if (name == this.characters[character]) return true;
+        }
 
-        return true;
+        return false;
     };
 
 

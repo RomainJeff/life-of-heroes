@@ -7,8 +7,8 @@ var usersModel = new usersModelConstructor();
 var charactersModelConstructor = require('./models/charactersModel.js')();
 var charactersModel = new charactersModelConstructor();
 
+var sessionsModel = require('./models/sessionsModel.js');
 
-/** Controllers **/
 
 
 io.on('connection', function (socket) {
@@ -48,9 +48,10 @@ io.on('connection', function (socket) {
 
 
     // Quand le client se deconnecte
-    socket.on('logOut', function () {
+    socket.on('disconnect', function () {
         if (usersModel.exists(socket.id, true)) {
             usersModel.deletePlaying(socket.id);
+            charactersModel.delete(socket.id);
 
             return true;
         }
