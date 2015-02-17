@@ -104,6 +104,31 @@ module.exports = function () {
     }
 
 
+    /**
+     * Recupere les utilisateurs en attente via leur index direct
+     * @param int id
+     */
+    userModel.prototype.getWaitingFromIndex = function (index) {
+        return this.waiting[index];
+    }
+
+
+    /**
+     * Recupere l'id de l'adversaire
+     * @param string id L'id de l'utilisateur courant
+     */
+    userModel.prototype.getAdversary = function(id) {
+        for (user in this.users) {
+            if (id != user) {
+                return user;
+            }
+        }
+
+        // Sinon il n'y a pas d'adversaire
+        return false;
+    };
+
+
     // On exporte la classe
     return userModel;
 };

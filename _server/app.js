@@ -13,6 +13,8 @@ var sessionsModel = require('./models/sessionsModel.js');
 
 io.on('connection', function (socket) {
 
+    // Ajout de la session au sessionModel
+    sessionsModel.add(socket.id, socket);
 
     /********************
      * EVENTS LISTENERS
@@ -49,18 +51,40 @@ io.on('connection', function (socket) {
 
     // Quand le client se deconnecte
     socket.on('disconnect', function () {
+        // Si le client etait en jeu
         if (usersModel.exists(socket.id, true)) {
+            // Suppression du joueur courant
             usersModel.deletePlaying(socket.id);
             charactersModel.delete(socket.id);
 
-            return true;
-        }
+            // On recupere l'adversaire
+            var adversary = usersModel.getAdversary(socket.id);
 
-        if (usersModel.exists(socket.id, false)) {
+            // On le deconnecte si il y en a un
+            if (adversary) {
+                sessionsModel.get(adversary).emit('logOut');
+                // Suppression de l'adversaire
+                usersModel.deletePlaying(adversary);
+                charactersModel.delete(socket.id);
+            }
+
+            // On envoie le droit de jouer aux 2 prochains joueurs
+            for (id in usersModel.getWaiting()) {
+                if (id >= 2) {
+                    break;
+                }
+
+                var socketID = usersModel.getWaitingFromIndex(id);
+                sessionsModel.get(socketID).emit('retryPlaying');
+                usersModel.deleteWaiting(socketID);
+            }
+
+        } else if (usersModel.exists(socket.id, false)) {
             usersModel.deleteWaiting(socket.id);
-
-            return true;
         }
+
+        // Suppression de la session
+        sessionsModel.delete(socket.id);
     });
 
 });

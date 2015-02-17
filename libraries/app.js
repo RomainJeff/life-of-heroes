@@ -52,7 +52,7 @@ document.addEventListener('webkitfullscreenchange', function (event) {
         $('#home').attr('data-active', true);
 
         // On envoie la deconnexion au serveur
-        socketIO.emit('logOut');
+        socketIO.emit('disconnect');
     }
 });
 
@@ -123,7 +123,7 @@ socketIO.on('userState', function (state) {
     $('.loading').removeClass('active');
     clearInterval(loadingTmp);
 
-    setPane($('#home'), false);
+    setPane($('.pane[data-active="true"]'), false);
 
     // Si il reste des places pour jouer
     // on affiche le choix d'un personnage
@@ -134,12 +134,13 @@ socketIO.on('userState', function (state) {
     }
 });
 
+
 // Lorsque l'on nous dit si le personnage choisi est ok ou pas
 socketIO.on('characterResponse', function (response) {
     $('.loading').removeClass('active');
     clearInterval(loadingTmp);
 
-    if (response) {
+    if (response != false) {
         grille.setCharacter(response);
 
         /** GENERATION & DESSIN DE LA GRILLE **/
@@ -153,6 +154,20 @@ socketIO.on('characterResponse', function (response) {
     }
 });
 
+
+// Lorsque l'on se fait deconnecter
+socketIO.on('logOut', function () {
+    setPane($('.pane[data-active="true"]'), false);
+    setPane($('#home'), true);
+    
+    socketIO.emit('disconnect');
+});
+
+
+// Lorsque l'on nous dit de retenter de ce connecter
+socketIO.on('retryPlaying', function() {
+    $('#play-online').trigger('click');
+});
 
 
 /***********************************************************************************/
