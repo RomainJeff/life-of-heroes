@@ -68,6 +68,18 @@ $('#play-online').on('click', function () {
 });
 
 
+// Lors du choix du personnage
+$('#select-character ul li').on('click', function () {
+    var character = $(this).attr('data-char');
+
+    // Loading
+    $('.loading').addClass('active');
+    loadingTmp = setInterval(playOnlineLoading, 30);
+
+    socketIO.emit('chooseCharacter', character);
+});
+
+
 // Lors du clique sur le bouton "Jouer"
 $('#start-game').on('click', function () {
     gameControlsHandler.play();
@@ -78,7 +90,7 @@ $('#start-game').on('click', function () {
 });
 
 
-// Lors du clique sur le bouton "Jouer"
+// Lors du clique sur le bouton "Finir"
 $('#end-game').on('click', function () {
     gameControlsHandler.reset();
     gameControlsHandler.stop();
@@ -92,20 +104,6 @@ $('#end-game').on('click', function () {
 $('#display-rules').on('click', function () {
     $(this).addClass('active');
     $('.rules').toggleClass('active');
-});
-
-
-$('#select-character ul li').on('click', function () {
-    var character = $(this).attr('data-char');
-
-    grille.setCharacter(character);
-
-    /** GENERATION & DESSIN DE LA GRILLE **/
-    grille.generate(sizeGrille);
-    grille.draw(grilleID);
-
-    setPane($('#select-character'), false);
-    setPane($('#in-game'), true);
 });
 
 
@@ -133,6 +131,25 @@ socketIO.on('userState', function (state) {
         setPane($('#select-character'), true);
     } else {
         setPane($('#waiting'), true);
+    }
+});
+
+// Lorsque l'on nous dit si le personnage choisi est ok ou pas
+socketIO.on('characterResponse', function (response) {
+    $('.loading').removeClass('active');
+    clearInterval(loadingTmp);
+
+    if (response) {
+        grille.setCharacter(response);
+
+        /** GENERATION & DESSIN DE LA GRILLE **/
+        grille.generate(sizeGrille);
+        grille.draw(grilleID);
+
+        setPane($('#select-character'), false);
+        setPane($('#in-game'), true);
+    } else {
+        alert('Ce personnage est deja partis en mission');
     }
 });
 
