@@ -460,19 +460,19 @@ body {
 }
 
 [id=grille] .line .row[data-character="flash"][data-active=true] {
-    background: url('../../lifeOfHeroes/resources/images/flash.png') no-repeat center;
+    background: url('../images/game_chars/flash.png') no-repeat center;
 }
 
 [id=grille] .line .row[data-character="superman"][data-active=true] {
-    background: url('../../lifeOfHeroes/resources/images/superman.png') no-repeat center;
+    background: url('../images/game_chars/superman.png') no-repeat center;
 }
 
 [id=grille] .line .row[data-character="green"][data-active=true] {
-    background: url('../../lifeOfHeroes/resources/images/green.png') no-repeat center;
+    background: url('../images/game_chars/green.png') no-repeat center;
 }
 
 [id=grille] .line .row[data-character="batman"][data-active=true] {
-    background: url('../../lifeOfHeroes/resources/images/batman.png') no-repeat center;
+    background: url('../images/game_chars/batman.png') no-repeat center;
 }
 
 
