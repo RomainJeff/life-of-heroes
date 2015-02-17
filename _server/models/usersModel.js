@@ -7,7 +7,7 @@ module.exports = function () {
         this.users = [];
         this.waiting = [];
     };
-    
+
 
     /**
      * Ajoute un utilisateur
@@ -55,13 +55,35 @@ module.exports = function () {
      */
     userModel.prototype.exist = function (id, inGame) {
         if (inGame) {
-            if (!this.users[id]) return false;
+            if (!this.users[this.users.indexOf(id)]) return false;
         } else {
-            if (!this.waiting[id]) return false;
+            if (!this.waiting[this.waiting.indexOf(id)]) return false;
         }
 
         return true;
     };
+
+
+    /**
+     * Recupere les utilisateurs en jeu
+     * @param int id
+     */
+    userModel.prototype.getInGame = function (id) {
+        if (!id) return this.users;
+
+        return this.users[this.users.indexOf(id)];
+    };
+
+
+    /**
+     * Recupere les utilisateurs en attente
+     * @param int id
+     */
+    userModel.prototype.getWaiting = function (id) {
+        if (!id) return this.waiting;
+
+        return this.waiting[this.waiting.indexOf(id)];
+    }
 
 
     // On exporte la classe
